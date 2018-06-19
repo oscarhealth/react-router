@@ -1,6 +1,7 @@
 import createHashHistory from 'history/lib/createHashHistory'
 import useQueries from 'history/lib/useQueries'
 import invariant from 'invariant'
+import PropTypes from 'prop-types';
 import React from 'react'
 
 import createTransitionManager from './createTransitionManager'
@@ -20,7 +21,7 @@ function isUnsupportedHistory(history) {
   return history && history.getCurrentLocation
 }
 
-const { func, object } = React.PropTypes
+const { func, object } = PropTypes
 
 /**
  * A <Router> is a high-level API for automatically setting up

@@ -1,4 +1,5 @@
 import expect from 'expect'
+import PropTypes from 'prop-types';
 import React, { cloneElement } from 'react'
 import { render } from 'react-dom'
 import Router from '../Router'
@@ -12,8 +13,8 @@ const BAR_ROOT_CONTAINER_TEXT = 'BAR ROOT CONTAINER'
 const BAZ_CONTAINER_TEXT = 'BAZ INJECTED'
 
 class FooRootContainer extends React.Component {
-  static propTypes = { children: React.PropTypes.node.isRequired };
-  static childContextTypes = { foo: React.PropTypes.string };
+  static propTypes = { children: PropTypes.node.isRequired };
+  static childContextTypes = { foo: PropTypes.string };
   getChildContext() { return { foo: FOO_ROOT_CONTAINER_TEXT } }
 
   render() {
@@ -22,8 +23,8 @@ class FooRootContainer extends React.Component {
 }
 
 class FooContainer extends React.Component {
-  static propTypes = { children: React.PropTypes.node.isRequired };
-  static contextTypes = { foo: React.PropTypes.string.isRequired };
+  static propTypes = { children: PropTypes.node.isRequired };
+  static contextTypes = { foo: PropTypes.string.isRequired };
 
   render() {
     const { children, ...props } = this.props
@@ -42,8 +43,8 @@ const useFoo = () => ({
 })
 
 class BarRootContainer extends React.Component {
-  static propTypes = { children: React.PropTypes.node.isRequired };
-  static childContextTypes = { bar: React.PropTypes.string };
+  static propTypes = { children: PropTypes.node.isRequired };
+  static childContextTypes = { bar: PropTypes.string };
   getChildContext() { return { bar: BAR_ROOT_CONTAINER_TEXT } }
 
   render() {
@@ -52,8 +53,8 @@ class BarRootContainer extends React.Component {
 }
 
 class BarContainer extends React.Component {
-  static propTypes = { children: React.PropTypes.node.isRequired };
-  static contextTypes = { bar: React.PropTypes.string.isRequired };
+  static propTypes = { children: PropTypes.node.isRequired };
+  static contextTypes = { bar: PropTypes.string.isRequired };
 
   render() {
     const { children, ...props } = this.props

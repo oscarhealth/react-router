@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 import invariant from 'invariant'
 import { createRouteFromReactElement } from './RouteUtils'
 import { component, components } from './InternalPropTypes'
 
-const { string, func } = React.PropTypes
+const { string, func } = PropTypes
 
 /**
  * A <Route> is used to declare which components are rendered to the
