@@ -6,66 +6,61 @@ import withExampleBasename from '../withExampleBasename'
 
 import './app.css'
 
-const App = withRouter(
-  React.createClass({
+const App = withRouter(class extends React.Component {
+  state = {
+    tacos: [
+      { name: 'duck confit' },
+      { name: 'carne asada' },
+      { name: 'shrimp' }
+    ]
+  };
 
-    getInitialState() {
-      return {
-        tacos: [
-          { name: 'duck confit' },
-          { name: 'carne asada' },
-          { name: 'shrimp' }
-        ]
-      }
-    },
+  addTaco = () => {
+    let name = prompt('taco name?')
 
-    addTaco() {
-      let name = prompt('taco name?')
+    this.setState({
+      tacos: this.state.tacos.concat({ name })
+    })
+  };
 
-      this.setState({
-        tacos: this.state.tacos.concat({ name })
+  handleRemoveTaco = (removedTaco) => {
+    this.setState({
+      tacos: this.state.tacos.filter(function (taco) {
+        return taco.name != removedTaco
       })
-    },
+    })
 
-    handleRemoveTaco(removedTaco) {
-      this.setState({
-        tacos: this.state.tacos.filter(function (taco) {
-          return taco.name != removedTaco
-        })
-      })
+    this.props.router.push('/')
+  };
 
-      this.props.router.push('/')
-    },
-
-    render() {
-      let links = this.state.tacos.map(function (taco, i) {
-        return (
-          <li key={i}>
-            <Link to={`/taco/${taco.name}`}>{taco.name}</Link>
-          </li>
-        )
-      })
+  render() {
+    let links = this.state.tacos.map(function (taco, i) {
       return (
-        <div className="App">
-          <button onClick={this.addTaco}>Add Taco</button>
-          <ul className="Master">
-            {links}
-          </ul>
-          <div className="Detail">
-            {this.props.children && React.cloneElement(this.props.children, {
-              onRemoveTaco: this.handleRemoveTaco
-            })}
-          </div>
-        </div>
+        <li key={i}>
+          <Link to={`/taco/${taco.name}`}>{taco.name}</Link>
+        </li>
       )
-    }
-  })
-)
+    })
+    return (
+      <div className="App">
+        <button onClick={this.addTaco}>Add Taco</button>
+        <ul className="Master">
+          {links}
+        </ul>
+        <div className="Detail">
+          {this.props.children && React.cloneElement(this.props.children, {
+            onRemoveTaco: this.handleRemoveTaco
+          })}
+        </div>
+      </div>
+    )
+  }
+})
 
-const Taco = React.createClass({
-  remove() {
+class Taco extends React.Component {
+  remove = () => {
     this.props.onRemoveTaco(this.props.params.name)
-  },
+  };
 
   render() {
     return (
@@ -75,7 +70,7 @@ const Taco = React.createClass({
       </div>
     )
   }
-})
+}
 
 render((
   <Router history={withExampleBasename(browserHistory, __dirname)}>

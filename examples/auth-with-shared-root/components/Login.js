@@ -2,14 +2,12 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import auth from '../utils/auth.js'
 
-const Login = React.createClass({
-  getInitialState() {
-    return {
-      error: false
-    }
-  },
+class Login extends React.Component {
+  state = {
+    error: false
+  };
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault()
 
     const email = this.refs.email.value
@@ -27,7 +25,7 @@ const Login = React.createClass({
         this.props.router.replace('/')
       }
     })
-  },
+  };
 
   render() {
     return (
@@ -41,7 +39,6 @@ const Login = React.createClass({
       </form>
     )
   }
-
-})
+}
 
 module.exports = withRouter(Login)

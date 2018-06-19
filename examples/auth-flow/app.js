@@ -5,23 +5,21 @@ import { browserHistory, Router, Route, Link, withRouter } from 'react-router'
 import withExampleBasename from '../withExampleBasename'
 import auth from './auth'
 
-const App = React.createClass({
-  getInitialState() {
-    return {
-      loggedIn: auth.loggedIn()
-    }
-  },
+class App extends React.Component {
+  state = {
+    loggedIn: auth.loggedIn()
+  };
 
-  updateAuth(loggedIn) {
+  updateAuth = (loggedIn) => {
     this.setState({
       loggedIn
     })
-  },
+  };
 
   componentWillMount() {
     auth.onChange = this.updateAuth
     auth.login()
-  },
+  }
 
   render() {
     return (
@@ -41,9 +39,9 @@ const App = React.createClass({
       </div>
     )
   }
-})
+}
 
-const Dashboard = React.createClass({
+class Dashboard extends React.Component {
   render() {
     const token = auth.getToken()
 
@@ -55,67 +53,62 @@ const Dashboard = React.createClass({
       </div>
     )
   }
-})
+}
 
-const Login = withRouter(
-  React.createClass({
+const Login = withRouter(class extends React.Component {
+  state = {
+    error: false
+  };
 
-    getInitialState() {
-      return {
-        error: false
+  handleSubmit = (event) => {
+    event.preventDefault()
+
+    const email = this.refs.email.value
+    const pass = this.refs.pass.value
+
+    auth.login(email, pass, (loggedIn) => {
+      if (!loggedIn)
+        return this.setState({ error: true })
+
+      const { location } = this.props
+
+      if (location.state && location.state.nextPathname) {
+        this.props.router.replace(location.state.nextPathname)
+      } else {
+        this.props.router.replace('/')
       }
-    },
+    })
+  };
 
-    handleSubmit(event) {
-      event.preventDefault()
-
-      const email = this.refs.email.value
-      const pass = this.refs.pass.value
-
-      auth.login(email, pass, (loggedIn) => {
-        if (!loggedIn)
-          return this.setState({ error: true })
-
-        const { location } = this.props
-
-        if (location.state && location.state.nextPathname) {
-          this.props.router.replace(location.state.nextPathname)
-        } else {
-          this.props.router.replace('/')
-        }
-      })
-    },
-
-    render() {
-      return (
-        <form onSubmit={this.handleSubmit}>
-          <label><input ref="email" placeholder="email" defaultValue="joe@example.com" /></label>
-          <label><input ref="pass" placeholder="password" /></label> (hint: password1)<br />
-          <button type="submit">login</button>
-          {this.state.error && (
-            <p>Bad login information</p>
-          )}
-        </form>
-      )
-    }
-  })
-)
-
-const About = React.createClass({
   render() {
-    return <h1>About</h1>
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label><input ref="email" placeholder="email" defaultValue="joe@example.com" /></label>
+        <label><input ref="pass" placeholder="password" /></label> (hint: password1)<br />
+        <button type="submit">login</button>
+        {this.state.error && (
+          <p>Bad login information</p>
+        )}
+      </form>
+    )
   }
 })
 
-const Logout = React.createClass({
+class About extends React.Component {
+  render() {
+    return <h1>About</h1>
+  }
+}
+
+class Logout extends React.Component {
   componentDidMount() {
     auth.logout()
-  },
+  }
 
   render() {
     return <p>You are now logged out</p>
   }
-})
+}
 
 function requireAuth(nextState, replace) {
   if (!auth.loggedIn()) {

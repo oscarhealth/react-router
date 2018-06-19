@@ -1,4 +1,5 @@
 import React from 'react'
+import createReactClass from 'create-react-class'
 import { render } from 'react-dom'
 import { browserHistory, Router, Route, IndexRoute, Link } from 'react-router'
 
@@ -10,7 +11,9 @@ const PICTURES = [
   { id: 2, src: 'http://placekitten.com/620/620' }
 ]
 
-const Modal = React.createClass({
+const Modal = createReactClass({
+  displayName: 'Modal',
+
   styles: {
     position: 'fixed',
     top: '20%',
@@ -33,8 +36,7 @@ const Modal = React.createClass({
   }
 })
 
-const App = React.createClass({
-
+class App extends React.Component {
   componentWillReceiveProps(nextProps) {
     // if we changed routes...
     if ((
@@ -45,7 +47,7 @@ const App = React.createClass({
       // save the old children (just like animation)
       this.previousChildren = this.props.children
     }
-  },
+  }
 
   render() {
     let { location } = this.props
@@ -75,9 +77,9 @@ const App = React.createClass({
       </div>
     )
   }
-})
+}
 
-const Index = React.createClass({
+class Index extends React.Component {
   render() {
     return (
       <div>
@@ -112,9 +114,9 @@ const Index = React.createClass({
       </div>
     )
   }
-})
+}
 
-const Deep = React.createClass({
+class Deep extends React.Component {
   render() {
     return (
       <div>
@@ -134,9 +136,9 @@ const Deep = React.createClass({
       </div>
     )
   }
-})
+}
 
-const Picture = React.createClass({
+class Picture extends React.Component {
   render() {
     return (
       <div>
@@ -144,7 +146,7 @@ const Picture = React.createClass({
       </div>
     )
   }
-})
+}
 
 render((
   <Router history={withExampleBasename(browserHistory, __dirname)}>

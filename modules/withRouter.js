@@ -10,11 +10,11 @@ function getDisplayName(WrappedComponent) {
 export default function withRouter(WrappedComponent, options) {
   const withRef = options && options.withRef
 
-  const WithRouter = React.createClass({
-    contextTypes: { router: routerShape },
-    propTypes: { router: routerShape },
+  class WithRouter extends React.Component {
+    static contextTypes = { router: routerShape };
+    static propTypes = { router: routerShape };
 
-    getWrappedInstance() {
+    getWrappedInstance = () => {
       invariant(
         withRef,
         'To access the wrapped instance, you need to specify ' +
@@ -22,7 +22,7 @@ export default function withRouter(WrappedComponent, options) {
       )
 
       return this.wrappedInstance
-    },
+    };
 
     render() {
       const router = this.props.router || this.context.router
@@ -34,7 +34,7 @@ export default function withRouter(WrappedComponent, options) {
 
       return <WrappedComponent {...props} />
     }
-  })
+  }
 
   WithRouter.displayName = `withRouter(${getDisplayName(WrappedComponent)})`
   WithRouter.WrappedComponent = WrappedComponent

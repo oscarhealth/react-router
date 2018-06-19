@@ -1,7 +1,6 @@
 import React from 'react'
 
-const Landing = React.createClass({
-
+class Landing extends React.Component {
   render() {
     return (
       <div>
@@ -11,7 +10,6 @@ const Landing = React.createClass({
       </div>
     )
   }
-
-})
+}
 
 module.exports = Landing
